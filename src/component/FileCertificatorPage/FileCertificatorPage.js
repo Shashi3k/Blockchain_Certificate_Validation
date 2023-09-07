@@ -4,18 +4,34 @@ import CryptoJS from "crypto-js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStamp } from '@fortawesome/free-solid-svg-icons';
 import { CloudUploadOutlined, Label } from '@mui/icons-material';
-const IPFS = require('ipfs-api');
+import { create } from 'ipfs-http-client';
+
 const { Component } = require('react');
 const { default: getWeb3 } = require('../../utils/getWeb3');
-const ipfs = new IPFS({host:"ipfs.infura.io", port: 5001, protocol:"https"});
+
+const projectId="52cc218854bd43f69100891c3e5d02fa"
+const projectSecret="4bac31e34b104e50924082a81534e868"
+const auth = 'Basic '+Buffer.from(projectId+":"+projectSecret).toString('base64');
+const client =create({
+    host:'ipfs.infura.io',
+    post:5001,
+    protocol:'https',
+    apiPath:'/api/v0',
+    headers:{
+        authorization:auth,
+    }
+})
 
 
 var recep="recep_add";
 class FileCertificatorPage extends Component{
+
+    
     constructor(){
         super()
         this.state={
             accountHistory: null,
+            cid:null,
             web3:null,
             accounts: null,
             contract: null,
@@ -33,6 +49,7 @@ class FileCertificatorPage extends Component{
         this.handleChange= this.handleChange.bind(this);
         this.handleSubmit= this.handleSubmit.bind(this);
     }
+
     handleClose = () => {
         this.setState({ open: false });
       };
@@ -50,6 +67,17 @@ class FileCertificatorPage extends Component{
         recep=this.state.value;
         console.log("recep add= ",recep);
         event.preventDefault();
+    }
+
+    onChange =(e) => {
+        const file= e.target.files[0]
+        try {
+            const added = client.add(file)
+      const url = `https://yourdedicatedgwname.infura-ipfs.io/ipfs/${added.path}`
+      console.log(url)
+        }catch (error) {
+            console.log('Error uploading file: ', error)
+          }  
     }
 
     componentDidMount = async () =>{
@@ -122,24 +150,21 @@ class FileCertificatorPage extends Component{
         })
         this.getAcctHistory();
     }
-    uploadtoipfs = (hashValue, uplFileSize, uplFileExtension) =>{
-        ipfs.files.add(this.state.buffer, (error, result)=>{
-            if(error){
-                console.log("error in buffer");
-                console.error(error)
-                return
-            }
-            console.log("ipfsHash", result[0].hash);
-
-            hashValue = result[0].hash;
-            if(hashValue != null){
-                console.log("Hash is not null");
-                uplFileExtension=recep;
-                this.addtoBchain(hashValue, uplFileSize, uplFileExtension)
-            }
-        })
-    }
-
+    uploadtoipfs = async (hashValue, uplFileSize, uplFileExtension) => {
+        const client = create({
+          endpoint: "https://api.infura.io/v2/52cc218854bd43f69100891c3e5d02fa/ipfs",
+          authorization: "Bearer 4bac31e34b104e50924082a81534e868",
+        });
+      
+        const result = await client.add(this.state.buffer);
+        hashValue = result[0].hash;
+      
+        if (hashValue != null) {
+          uplFileExtension = recep;
+          await this.addToBchain(hashValue, uplFileSize, uplFileExtension);
+        }
+      };
+    
     uploadFile = async(event)=>{
         console.log("********",event.target.files[0].name)
         const uplFile= event.target.files[0]
@@ -149,13 +174,14 @@ class FileCertificatorPage extends Component{
         const file = event.target.files[0]
         const reader = new window.FileReader()
         reader.readAsArrayBuffer(file)
-        var hashValue = null;
-        this.buffer=null
-        reader.onloadend = () =>{
-            this.setState({buffer: Buffer(reader.result)})
-            console.log("buffer", this.state.buffer)
-            this.uploadtoipfs(hashValue,uplFileSize,uplFileExtension);
-        }
+        
+        reader.onloadend = () => {
+            this.setState({ buffer: Buffer(reader.result) }, () => {
+              console.log("buffer", this.state.buffer);
+              this.uploadtoipfs(this.state.buffer, uplFileSize, uplFileExtension);
+              console.log("Unreachable")
+            });
+          };
     }
         toggleTxModal(keyElement){
             let {isTxModalOpen}=this.state;
@@ -372,7 +398,10 @@ class FileCertificatorPage extends Component{
                             <p className={"tutorialParags"}> select the file that you want to upload to IPFS and insert into Blockchain</p>
                         </div>
                         <input id ="fileCert" name='fileCert' type='file' onChange={(e)=>this.uploadFile(e)} />
-
+                        <input
+                        type="file"
+                        onChange={(e)=>this.onChange(e)}
+                        />
                         {this.outputFileHash()}
                         {this.renderCertifyBtn()}
                     </div>
@@ -390,3 +419,14 @@ class FileCertificatorPage extends Component{
 
 
 export default FileCertificatorPage;
+
+// const auth =
+//     'Basic ' + Buffer.from(INFURA_ID + ':' + INFURA_SECRET_KEY).toString('base64');
+// const client = ipfsClient.create({
+//     host: 'ipfs.infura.io',
+//     port: 5001,
+//     protocol: 'https',
+//     headers: {
+//         authorization: auth,
+//     },
+// });
