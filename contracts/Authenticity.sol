@@ -1,5 +1,5 @@
-// SPDX-License-Identifier: MIT
-pragma solidity 0.8.19;
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity >=0.4.22 <0.9.0;
 
 contract Authenticity{
     event FileCertified(address author, string fileHash, uint timestamp, uint fileSize, string fileExtension);
