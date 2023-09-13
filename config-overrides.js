@@ -2,6 +2,8 @@ const webpack = require('webpack');
 
 module.exports = function override(config) {
   const fallback = config.resolve.fallback || {};
+  fallback["tty"] = false;
+  fallback["zlib"] = false;
   Object.assign(fallback, {
     "constants": require.resolve("constants-browserify"),
     "crypto": require.resolve("crypto-browserify"),
@@ -11,7 +13,8 @@ module.exports = function override(config) {
     "https": require.resolve("https-browserify"),
     "os": require.resolve("os-browserify"),
     "url": require.resolve("url"),
-    "path": require.resolve("path-browserify")
+    "path": require.resolve("path-browserify"),
+    "tty": require.resolve("tty-browserify")
   });
   
   config.resolve.fallback = fallback;

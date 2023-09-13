@@ -6,22 +6,23 @@ import { faStamp } from '@fortawesome/free-solid-svg-icons';
 import { CloudUploadOutlined, Label } from '@mui/icons-material';
 import { create } from 'ipfs-http-client';
 
+// import PinataClient from '@pinata/sdk';
+// import * as fs from 'fs-extra'
 const { Component } = require('react');
 const { default: getWeb3 } = require('../../utils/getWeb3');
 
-const projectId="52cc218854bd43f69100891c3e5d02fa"
-const projectSecret="4bac31e34b104e50924082a81534e868"
+const projectId="2VG2HRw74lI6t0i4pq0O6RHnofv"
+const projectSecret="0a8b203144747ebec74d1f2fb19f79e5"
 const auth = 'Basic '+Buffer.from(projectId+":"+projectSecret).toString('base64');
 const client =create({
     host:'ipfs.infura.io',
     post:5001,
     protocol:'https',
     apiPath:'/api/v0',
-    headers:{
-        authorization:auth,
-    }
+    authorization:auth,
 })
 
+// const client = create();
 
 var recep="recep_add";
 class FileCertificatorPage extends Component{
@@ -73,7 +74,7 @@ class FileCertificatorPage extends Component{
         const file= e.target.files[0]
         try {
             const added = client.add(file)
-      const url = `https://yourdedicatedgwname.infura-ipfs.io/ipfs/${added.path}`
+      const url = `https://certificate3k.infura-ipfs.io/ipfs/${added.path}`
       console.log(url)
         }catch (error) {
             console.log('Error uploading file: ', error)
@@ -151,10 +152,7 @@ class FileCertificatorPage extends Component{
         this.getAcctHistory();
     }
     uploadtoipfs = async (hashValue, uplFileSize, uplFileExtension) => {
-        const client = create({
-          endpoint: "https://api.infura.io/v2/52cc218854bd43f69100891c3e5d02fa/ipfs",
-          authorization: "Bearer 4bac31e34b104e50924082a81534e868",
-        });
+        
       
         const result = await client.add(this.state.buffer);
         hashValue = result[0].hash;
@@ -164,6 +162,20 @@ class FileCertificatorPage extends Component{
           await this.addToBchain(hashValue, uplFileSize, uplFileExtension);
         }
       };
+
+    // uploadtoipfs = async( hashValue, uplFileSize, uplFileExtension) => {
+    //     const pinataClient = new PinataClient.Client({
+    //         API_KEY: "124f8829129c4182201a",
+    //         API_SECRET: "e90e426d4765b510750b00c63c1bc534ee613dcb4c1dde4bcf203092f01d10bd"
+    //     });
+
+    //     const created = await client.add(this.state.buffer);
+    //     const cid = create.path;
+
+    //     await pinataClient.pinFile(cid);
+    //     console.log(cid)
+    // };
+    
     
     uploadFile = async(event)=>{
         console.log("********",event.target.files[0].name)
@@ -210,6 +222,7 @@ class FileCertificatorPage extends Component{
             if (this.state.fileHash===null){
                 return (null)
             }
+            console.log("outputFileHash")
             return (
                 <div>
                     <p className={"fileSize fade-in"}>
@@ -385,7 +398,7 @@ class FileCertificatorPage extends Component{
                     </div>
                     <div id="fileUplcont">
                         <div className={"stepsContainer"}>
-                            <Button size='lg' className={'certifyBtn'}>
+                            {/* <Button size='lg' className={'certifyBtn'}>
                             <label htmlFor="fileCert">
                                 <Button
                                     variant="outlined"
@@ -394,14 +407,11 @@ class FileCertificatorPage extends Component{
                                     CHOOSE FILE
                                 </Button>
                             </label>
-                            </Button>
+                            </Button> */}
                             <p className={"tutorialParags"}> select the file that you want to upload to IPFS and insert into Blockchain</p>
                         </div>
                         <input id ="fileCert" name='fileCert' type='file' onChange={(e)=>this.uploadFile(e)} />
-                        <input
-                        type="file"
-                        onChange={(e)=>this.onChange(e)}
-                        />
+                        
                         {this.outputFileHash()}
                         {this.renderCertifyBtn()}
                     </div>

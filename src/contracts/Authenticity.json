@@ -59,8 +59,7 @@
       "name": "certifyFile",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function",
-      "payable": true
+      "type": "function"
     },
     {
       "inputs": [
@@ -99,8 +98,7 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function",
-      "constant": true
+      "type": "function"
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.4+commit.c7e474f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"author\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"fileHash\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"timestamp\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"fileSize\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"fileExtension\",\"type\":\"string\"}],\"name\":\"FileCertified\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"fileSize\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"fileHash\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"fileExtension\",\"type\":\"string\"}],\"name\":\"certifyFile\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"fileHash\",\"type\":\"string\"}],\"name\":\"verifyFile\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Authenticity.sol\":\"Authenticity\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Authenticity.sol\":{\"keccak256\":\"0xcb952ee38dab5feb29a6dae046efea64605f62e2222cf367df9dd5bfcf4c513a\",\"license\":\"GPL-3.0\",\"urls\":[\"bzz-raw://aed10b03515d048499c28e4a13590e0ddc822e3065659b98a54baeb2cb66c89b\",\"dweb:/ipfs/QmeoTRQiMmwJVBeyeBdMAhakq3Nb3CknNDYxZhn11HPJw2\"]}},\"version\":1}",
@@ -5577,13 +5575,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x77Ff10c9793CeE5c4900fEECbdFE0BD0A5073204",
-      "transactionHash": "0x4117e8204fc41c247aae3f254877281c59440130f5b0f5f62acac8f83710075e"
+      "address": "0xe5367C550042A0d39D1596817548621897964C7b",
+      "transactionHash": "0xc4fc149cc7009a0d2dc450a6334335912f3e1d20e37ce614080c998587121dad"
     }
   },
   "schemaVersion": "3.4.15",
-  "updatedAt": "2023-09-07T18:31:01.995Z",
-  "networkType": "ethereum",
+  "updatedAt": "2023-09-12T19:41:57.227Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
